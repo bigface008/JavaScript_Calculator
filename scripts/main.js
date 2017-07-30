@@ -1,5 +1,3 @@
-// This file can't run in Firefox. Please try it in Chrome.
-
 var text_input = ""; // Equality used to calculate
 
 /*
@@ -7,10 +5,10 @@ var text_input = ""; // Equality used to calculate
  * Usage: deleteContent();
  * -----------------------
  * Delet input box & output box.
- */ 
+ */
 
 function deleteContent() {
-    input.innerText = "0"; 
+    input.innerText = "0";
     output.innerText = "0";
     text_input = "";
 }
@@ -20,7 +18,7 @@ function deleteContent() {
  * Usage: if (isNumber(temp)) {}
  * -----------------------------
  * Check if the numbers in content is wrong.
- */ 
+ */
 
 function isNumber(str) {
     if (str[0] == "." || str[str.length - 1] == ".") return false;
@@ -158,15 +156,30 @@ function rightContent(content) {
         if (content[i] == "(") count_1++;
         if (content[i] == ")") count_2++;
         if (i - 1 >= 0) {
-            if ((content[i] == ")" && content[i - 1] == "(") || 
-                (content[i] == "(" && content[i - 1] == ")")) {
+            if (content[i] == ")" && content[i - 1] == "(") {
                 throw "Something is wrong";
-            } 
+            }
         }
     }
     if (count_1 != count_2) throw "Something is wrong";
 }
 
+/*
+ * Function: isAllEqual(array1,array2)
+ * Usage: isAllEqual(array1,array2);
+ * ---------------------------------
+ * Check if the 2 arrays are the same.
+ */
+
+function isAllEqual(array1, array2) {
+    if (array1.size != array2.size)
+        return false;
+    for (var i = 0; i < array1.size; i++) {
+        if (array1[i] != array2[i])
+            return false;
+    }
+    return true;
+}
 
 /*
  * Function: splitInput()
@@ -174,24 +187,25 @@ function rightContent(content) {
  * --------------------
  * Get content.
  */
+
 function splitInput(equality) {
     var result = new Array;
     var n = "";
-    for (var i = 0; i < text_input.length; i++) {
-        console.log(text_input[i]);
-        if (text_input[i] == "+" || text_input[i] == "-" || text_input[i] == "*"
-        || text_input[i] == "/" || text_input[i] == "(" || text_input[i] == ")") {
+    for (var i = 0; i < equality.length; i++) {
+        console.log(equality[i]);
+        if (equality[i] == "+" || equality[i] == "-" || equality[i] == "*"
+            || equality[i] == "/" || equality[i] == "(" || equality[i] == ")") {
             if (n != "") result.push(n);
             n = "";
-            result.push(text_input[i]);
+            result.push(equality[i]);
         }
-        else if (text_input[i] == "." || !isNaN(text_input[i])) {
-            n += text_input[i];
+        else if (equality[i] == "." || !isNaN(equality[i])) {
+            n += equality[i];
         }
         else {
             throw "Something is wrong";
         }
-        if (i == text_input.length - 1 && n != "") result.push(n);
+        if (i == equality.length - 1 && n != "") result.push(n);
     }
     return result;
 }
@@ -230,8 +244,7 @@ function calculate(equality) {
  */
 
 function addContent() {
-    var a = window.event;
-    var temp = a.srcElement.innerText;
+    var temp = event.srcElement.innerText;
     if (temp == "=") {
         var equality = text_input;
         calculate(equality);
